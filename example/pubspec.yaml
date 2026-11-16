@@ -1,0 +1,16 @@
+name: himma_quran_example
+description: A mushaf page with himma_quran.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  himma_quran:
+    path: ../
+
+flutter:
+  uses-material-design: true
