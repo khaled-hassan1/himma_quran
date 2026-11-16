@@ -109,7 +109,6 @@ class DualPageView extends StatelessWidget {
               key: ValueKey('dual_page_$index'),
               child: _KeepAlive(
                 index: index,
-                pagesPerItem: 2,
                 child: SizedBox(
                   // عرض وارتفاع افتراضيان يُعاد تحجيمهما بواسطة FittedBox
                   width: 375,

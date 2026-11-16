@@ -3,7 +3,7 @@ description: >-
   A Flutter mushaf reader (QPC v4 fonts, tajweed, ten readings, tafsir,
   audio, tasmee') built from quran_library 5.0.1, with smooth page turns
   and lower memory.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/khaled-hassan1/himma_quran
 issue_tracker: https://github.com/khaled-hassan1/himma_quran/issues
 topics:

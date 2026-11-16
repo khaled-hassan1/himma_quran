@@ -1,3 +1,11 @@
+## 1.0.1
+
+- **Two-page view** — the pages on screen were taken for far ones (the
+  page view's position was divided by the whole screen, not by one page's
+  half of it), so they were built late: a blank page for a second or two
+  after a jump (most visible on the web). The item width now comes from
+  the page view's own controller.
+
 ## 1.0.0
 
 First release: quran_library 5.0.1, copied as is (renamed to himma_quran), with these changes.

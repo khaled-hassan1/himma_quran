@@ -15,14 +15,11 @@ class _KeepAlive extends StatefulWidget {
   const _KeepAlive({
     required this.index,
     required this.child,
-    this.pagesPerItem = 1,
   });
 
   /// Its place in the page view.
   final int index;
 
-  /// Mushaf pages in one item (2 in the two-page view).
-  final int pagesPerItem;
   final Widget child;
 
   @override
@@ -41,6 +38,14 @@ class _KeepAliveState extends State<_KeepAlive>
   ScrollPosition? _position;
   bool _ready = false;
 
+  /// The page view's share of the screen per item, from its controller
+  /// (0.5 in the two-page view: one mushaf page per item, two on screen).
+  double get _fraction {
+    final c = Scrollable.maybeOf(context)?.widget.controller;
+    final f = c is PreloadPageController ? c.viewportFraction : 1.0;
+    return f > 0 ? f : 1.0;
+  }
+
   /// What is drawn: a new page widget (a theme change, new colours) is
   /// taken at once by the page on screen, by the others after it — one
   /// at a time between frames, not all in the frame of the change.
@@ -52,24 +57,34 @@ class _KeepAliveState extends State<_KeepAlive>
   ThemeData? _shownTheme;
   bool _keep = true;
 
-  /// The page on screen, from the page view's own scroll position (right
-  /// after a jump too, before the controller reports the new page).
+  /// The first item on screen, from the page view's own scroll position
+  /// (right after a jump too, before the controller reports the new page).
+  /// An item is [_fraction] of the screen wide — the two-page view
+  /// was measured in whole screens, so the pages on screen counted as far
+  /// away and showed blank until the browser was idle.
   int? get _current {
     final p = _position;
     if (p != null &&
         p.hasPixels &&
         p.hasViewportDimension &&
         p.viewportDimension > 0) {
-      return (p.pixels / p.viewportDimension).round();
+      return (p.pixels / (p.viewportDimension * _fraction))
+          .round();
     }
     // The first frame (no position yet): the page the reader opens on.
-    return (QuranCtrl.instance.state.currentPageNumber.value - 1) ~/
-        widget.pagesPerItem;
+    return QuranCtrl.instance.state.currentPageNumber.value - 1;
   }
 
+  /// Items side by side on one screen (2 in the two-page view).
+  int get _onScreen => math.max(1, (1 / _fraction).round());
+
+  /// 0 for every item on screen.
   int get _distance {
     final c = _current;
-    return c == null ? 0 : (widget.index - c).abs();
+    if (c == null) return 0;
+    final last = c + _onScreen - 1;
+    final i = widget.index;
+    return i < c ? c - i : (i > last ? i - last : 0);
   }
 
   @override
