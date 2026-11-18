@@ -93,9 +93,11 @@ extension AyahCtrlExtension on AudioCtrl {
           isDark: isDark,
         );
         // بعد إغلاق الـ bottomSheet، أعد التحقق
-        // final downloadedNow =
-        //     await isAyahSurahFullyDownloaded(currentSurahNumber);
-        if (!isSurahFullyDownloaded) {
+        // himma_quran: checked again — upstream tested the value from
+        // before the sheet, so a surah downloaded in it never played.
+        final downloadedNow =
+            await isAyahSurahFullyDownloaded(currentSurahNumber);
+        if (!downloadedNow) {
           state.isAudioPreparing.value = false;
           // المستخدم أغلق أو لم يكتمل التحميل
           return;

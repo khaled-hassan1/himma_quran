@@ -1,3 +1,10 @@
+## 1.0.2
+
+- **Ayah audio after a download** — playing a surah whose ayahs were not
+  on the device opened the download sheet, and the surah did not play
+  once they were downloaded there. It is checked again when the sheet
+  closes and plays when the whole surah is on the device.
+
 ## 1.0.1
 
 - **Two-page view** — the pages on screen were taken for far ones (the
